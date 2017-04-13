@@ -1,0 +1,31 @@
+{
+  "name": "ytdl-getinfo",
+  "version": "1.0.0",
+  "description": "Gets video information using youtube-dl",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node updater",
+    "update": "node updater",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheBITLINK/ytdl-getinfo.git"
+  },
+  "keywords": [
+    "youtube-dl"
+  ],
+  "author": "TheBITLINK aka BIT <me@thebitlink.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheBITLINK/ytdl-getinfo/issues"
+  },
+  "homepage": "https://github.com/TheBITLINK/ytdl-getinfo#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "chai-events": "0.0.1",
+    "mocha": "^3.2.0"
+  }
+}
