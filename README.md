@@ -1,4 +1,4 @@
-# ytdl-getinfo
+# ytdl-getinfo ![](https://travis-ci.org/TheBITLINK/ytdl-getinfo.svg?branch=master)
 
 Gets information on a video (or playlist) using youtube-dl.
 
