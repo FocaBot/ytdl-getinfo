@@ -19,15 +19,6 @@ describe('ytdl-getinfo', function () {
     return getInfo('v7BddpYYNGk').should.eventually.have.property('partial', false)
   })
 
-  it('should kill the process when .cancel() is called', function () {
-    this.timeout(30000)
-    return getInfo('PLwiyx1dc3P2JR9N8gQaQN_BCvlSlap7re').then(p => {
-      setTimeout(() => p.cancel(), 100)
-      return p
-    })
-    .should.eventually.emit('cancelled')
-  })
-
   it('should resolve with "partial" set to true for playlists', function () {
     this.timeout(30000)
     return getInfo('PLwiyx1dc3P2JR9N8gQaQN_BCvlSlap7re').then(p => { p.cancel(); return p })
