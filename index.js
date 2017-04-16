@@ -46,9 +46,9 @@ module.exports = {
           const data = JSON.parse(d)
           pl.items.push(data)
           pl.emit('video', data)
-          if (pl.items.length === 1 && !wait) {
+          if (pl.items.length === 2 && !wait) {
             // Wait 100ms for the process to exit before resolving the promise
-            // This way, if there's only a single video, the playlist will be resolved
+            // This way, if there's only 2 videos, the playlist will be resolved
             // with 'partial' set to false.
             setTimeout(() => {
               if (pl.partial) {
@@ -62,7 +62,7 @@ module.exports = {
         }
       })
       // Close Event
-      ytdl.stdout.on('close', code => {
+      ytdl.on('close', code => {
         pl.partial = false
         pl.emit('done')
         // Reject the promise if there are no items and there's a error

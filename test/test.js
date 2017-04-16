@@ -31,6 +31,11 @@ describe('ytdl-getinfo', function () {
     .should.eventually.have.property('items').with.lengthOf(3)
   })
 
+  it('should throw errors produced by youtube-dl', function () {
+    this.timeout(30000)
+    return getInfo('AnYcMiksJ-A').should.be.rejected // Private Video
+  })
+
   it('should emit the "done" event when all the playlist data is available', function () {
     this.timeout(60000)
     return getInfo('PLwiyx1dc3P2JR9N8gQaQN_BCvlSlap7re')
