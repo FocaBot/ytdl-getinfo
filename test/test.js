@@ -31,6 +31,11 @@ describe('ytdl-getinfo', function () {
     .should.eventually.have.property('items').with.lengthOf(3)
   })
 
+  it('should be able to handle large amounts of data', function () {
+    this.timeout(30000)
+    return getInfo('JwKHxzfmAOY').should.eventually.have.property('items').with.lengthOf(1)
+  })
+
   it('should throw errors produced by youtube-dl', function () {
     this.timeout(30000)
     return getInfo('AnYcMiksJ-A').should.be.rejected // Private Video

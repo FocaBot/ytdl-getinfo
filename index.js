@@ -25,6 +25,7 @@ module.exports = {
   getInfo (query, args, wait = false) {
     return new Promise((resolve, reject) => {
       let lastError
+      let pData = ''
       // Checks
       if (!query) return reject(new Error('No query specified.'))
       if (typeof query !== 'string' && !(query instanceof Array)) {
@@ -42,8 +43,10 @@ module.exports = {
       ytdl.stderr.on('data', d => pl.emit('error', new Error(d)))
       // Parse incoming data
       ytdl.stdout.on('data', d => {
+        pData += d
+        if (pData.indexOf('\n') <= 0) return
         try {
-          const data = JSON.parse(d)
+          data = JSON.parse(pData)
           pl.items.push(data)
           pl.emit('video', data)
           if (pl.items.length === 2 && !wait) {
@@ -60,6 +63,7 @@ module.exports = {
         } catch (e) {
           pl.emit('error', e)
         }
+        pData = ''
       })
       // Close Event
       ytdl.on('close', code => {
