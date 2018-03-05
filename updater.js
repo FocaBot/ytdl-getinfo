@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const request = require('request')
-const { exec } = require('child_process')
+const { execFile } = require('child_process')
 
 /**
  * Updates or downloads the youtube-dl binary.
@@ -17,7 +17,7 @@ function updateBinary () {
     .on('error', e => reject(e)) // Handle errors
     .on('end', () => setTimeout(() => {
       // Try to get the version number
-      exec(dest + ' --version', (error, stdout, stderr) => {
+      execFile(dest, ['--version'], (error, stdout, stderr) => {
         if (error || stderr.length) return reject(error || stderr)
         resolve(stdout)
       })

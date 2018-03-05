@@ -46,7 +46,7 @@ module.exports = {
         pData += d
         if (pData.indexOf('\n') <= 0) return
         try {
-          data = JSON.parse(pData)
+          const data = JSON.parse(pData)
           pl.items.push(data)
           pl.emit('video', data)
           if (pl.items.length === 2 && !wait) {
