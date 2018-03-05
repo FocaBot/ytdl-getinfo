@@ -21,29 +21,41 @@ describe('ytdl-getinfo', function () {
 
   it('should resolve with "partial" set to true for playlists', function () {
     this.timeout(30000)
-    return getInfo('PLwiyx1dc3P2JR9N8gQaQN_BCvlSlap7re').then(p => { p.cancel(); return p })
+    return getInfo('PLJGN3qYb3JQyx429pxmyPVMUFnbqbaE9n').then(p => { p.cancel(); return p })
     .should.eventually.have.property('partial', true)
   })
   
   it('should wait for the entire playlist when "wait" is true', function () {
     this.timeout(60000)
-    return getInfo('PLwiyx1dc3P2JR9N8gQaQN_BCvlSlap7re', [], true)
+    return getInfo('PLJGN3qYb3JQyx429pxmyPVMUFnbqbaE9n', [], true)
     .should.eventually.have.property('items').with.lengthOf(3)
   })
 
-  it('should be able to handle large amounts of data', function () {
-    this.timeout(30000)
-    return getInfo('JwKHxzfmAOY').should.eventually.have.property('items').with.lengthOf(1)
-  })
+  // it('should be able to handle large amounts of data', function () {
+  //  this.timeout(30000)
+  //  return getInfo('JwKHxzfmAOY').should.eventually.have.property('items').with.lengthOf(1)
+  // })
 
   it('should throw errors produced by youtube-dl', function () {
     this.timeout(30000)
     return getInfo('AnYcMiksJ-A').should.be.rejected // Private Video
   })
 
+  it('should handle unicode searches properly', function () {
+    this.timeout(30000)
+    return getInfo('幽閉サテライト - ひと肌くらいの熱')
+    .should.eventually.have.property('items').with.lengthOf(1)
+  })
+
+  it('should properly escape queries starting with a dash', function () {
+    this.timeout(3000)
+    return getInfo('-H-sigEewZ8')
+    .should.eventually.have.property('items').with.lengthOf(1)
+  })
+
   it('should emit the "done" event when all the playlist data is available', function () {
     this.timeout(60000)
-    return getInfo('PLwiyx1dc3P2JR9N8gQaQN_BCvlSlap7re')
+    return getInfo('PLJGN3qYb3JQyx429pxmyPVMUFnbqbaE9n')
     .should.eventually.emit('done')
   })
 

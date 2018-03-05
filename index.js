@@ -32,7 +32,9 @@ module.exports = {
         return reject(new Error('query must be a string or array'))
       }
       // Arguments
-      const a = ['--dump-json'].concat(args || ['--default-search=ytsearch', '-i', '--format=best']).concat(query)
+      const a = ['--dump-json']
+        .concat(args || ['--default-search=ytsearch', '-i', '--format=best'])
+        .concat(['--', query])
       // Create a playlist object
       const pl = new Playlist()
       // Launch the youtube-dl executable
