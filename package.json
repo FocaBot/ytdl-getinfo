@@ -1,6 +1,6 @@
 {
   "name": "ytdl-getinfo",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Gets video information using youtube-dl",
   "main": "index.js",
   "scripts": {
