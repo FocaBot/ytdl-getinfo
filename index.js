@@ -1,6 +1,7 @@
 const Playlist = require('./playlist')
 const update = require('./updater')
 const path = require('path')
+const os = require('os')
 const { spawn } = require('child_process')
 const { platform } = process
 
@@ -34,7 +35,8 @@ module.exports = {
       // Arguments
       const a = ['--dump-json']
         .concat(args || ['--default-search=ytsearch', '-i', '--format=best'])
-        .concat(['--', query])
+        .concat(['-a', '-']) // stdin
+      const q = [].concat(query)
       // Create a playlist object
       const pl = new Playlist()
       // Launch the youtube-dl executable
@@ -43,6 +45,8 @@ module.exports = {
       // Handle errors
       ytdl.on('error', reject)
       ytdl.stderr.on('data', d => pl.emit('error', new Error(d)))
+      // Send query
+      ytdl.stdin.end(q.join(os.EOL), 'utf-8')
       // Parse incoming data
       ytdl.stdout.on('data', d => {
         pData += d

@@ -48,9 +48,15 @@ describe('ytdl-getinfo', function () {
   })
 
   it('should properly escape queries starting with a dash', function () {
-    this.timeout(3000)
+    this.timeout(30000)
     return getInfo('-H-sigEewZ8')
     .should.eventually.have.property('items').with.lengthOf(1)
+  })
+
+  it('should handle multiple queries properly', function () {
+    this.timeout(60000)
+    return getInfo(['EJTZms5PFg8', '_7inU3si8nA'], [], true)
+    .should.eventually.have.property('items').with.lengthOf(2)
   })
 
   it('should emit the "done" event when all the playlist data is available', function () {
