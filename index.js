@@ -46,7 +46,7 @@ module.exports = {
       ytdl.on('error', reject)
       ytdl.stderr.on('data', d => pl.emit('error', new Error(d)))
       // Send query
-      ytdl.stdin.end(q.join(os.EOL), 'utf-8')
+      ytdl.stdin.end(q.join(os.EOL), 'utf8')
       // Parse incoming data
       ytdl.stdout.on('data', d => {
         pData += d
