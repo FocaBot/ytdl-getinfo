@@ -2,7 +2,7 @@ const Playlist = require('./playlist')
 const update = require('./updater')
 const path = require('path')
 const os = require('os')
-const { spawn } = require('child_process')
+const { spawn, execFile } = require('child_process')
 const { platform } = process
 
 module.exports = {
@@ -86,6 +86,20 @@ module.exports = {
       pl.on('error', e => { lastError = e })
       // Add a _cancel function to kill the process
       pl._cancel = () => ytdl.kill()
+    })
+  },
+  /**
+   * Resolves to the version string of the youtube-dl executable
+   * @return {Promise<string>}
+   */
+  getVersion () {
+    const bin = path.join(__dirname, `ytdl`, `youtube-dl${platform === 'win32' ? '.exe' : ''}`)
+
+    return new Promise((resolve, reject) => {
+      execFile(bin, ['--version'], (error, stdout, stderr) => {
+        if (error || stderr.length) return reject(error || stderr)
+        resolve(stdout)
+      })
     })
   }
 }

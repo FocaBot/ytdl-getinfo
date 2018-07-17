@@ -67,3 +67,11 @@ require('ytdl-getinfo').update().then(version => {
   console.log(`youtube-dl updated to version ${version}`)
 })
 ```
+
+## Determining the version of the youtube-dl binary
+
+```javascript
+require('ytdl-getinfo').getVersion().then(version => {
+  console.log(`Current youtube-dl version: ${version}`)
+})
+```
