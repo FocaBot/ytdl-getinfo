@@ -39,6 +39,7 @@ const { getInfo } = require('ytdl-getinfo')
   ```javascript
   getInfo('PLwiyx1dc3P2JR9N8gQaQN_BCvlSlap7re').then(info => {
     // info.partial is true for playlists
+    // And first two songs are in info.items from start
     if (info.partial) {
       info.on('video', v => console.log(v.title))
       info.on('done', () => console.log(`Playlist contains ${info.items.length} items.`))
