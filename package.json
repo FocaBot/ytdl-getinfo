@@ -4,6 +4,7 @@
   "description": "Gets video information using youtube-dl",
   "main": "index.js",
   "scripts": {
+    "lint": "npx standard --fix",
     "postinstall": "node updater",
     "update": "node updater",
     "test": "mocha"
@@ -22,12 +23,12 @@
   },
   "homepage": "https://github.com/TheBITLINK/ytdl-getinfo#readme",
   "dependencies": {
-    "request": "^2.81.0"
+    "axios": "^0.21.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
-    "chai-events": "0.0.1",
-    "mocha": "^3.2.0"
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "chai-events": "0.0.3",
+    "mocha": "^8.3.2"
   }
 }

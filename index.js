@@ -1,9 +1,14 @@
 const Playlist = require('./playlist')
 const update = require('./updater')
-const path = require('path')
-const os = require('os')
+const { join } = require('path')
+const { EOL } = require('os')
 const { spawn, execFile } = require('child_process')
-const { platform } = process
+
+const bin = join(
+  __dirname,
+  'ytdl',
+  `youtube-dl${process.platform === 'win32' ? '.exe' : ''}`
+)
 
 module.exports = {
   update,
@@ -28,7 +33,9 @@ module.exports = {
       let lastError
       let pData = ''
       // Checks
-      if (!query) return reject(new Error('No query specified.'))
+      if (!query) {
+        return reject(new Error('No query specified.'))
+      }
       if (typeof query !== 'string' && !(query instanceof Array)) {
         return reject(new Error('query must be a string or array'))
       }
@@ -40,17 +47,18 @@ module.exports = {
       // Create a playlist object
       const pl = new Playlist()
       // Launch the youtube-dl executable
-      const bin = path.join(__dirname, `ytdl`, `youtube-dl${platform === 'win32' ? '.exe' : ''}`)
       const ytdl = spawn(bin, a, { maxBuffer: Infinity })
       // Handle errors
       ytdl.on('error', reject)
-      ytdl.stderr.on('data', d => pl.emit('error', new Error(d)))
+      ytdl.stderr.on('data', (d) => pl.emit('error', new Error(d)))
       // Send query
-      ytdl.stdin.end(q.join(os.EOL), 'utf8')
+      ytdl.stdin.end(q.join(EOL), 'utf8')
       // Parse incoming data
-      ytdl.stdout.on('data', d => {
+      ytdl.stdout.on('data', (d) => {
         pData += d
-        if (pData.indexOf('\n') <= 0) return
+        if (pData.indexOf('\n') <= 0) {
+          return
+        }
         try {
           const data = JSON.parse(pData)
           pl.items.push(data)
@@ -72,32 +80,37 @@ module.exports = {
         pData = ''
       })
       // Close Event
-      ytdl.on('close', code => {
+      ytdl.on('close', (code) => {
         pl.partial = false
         pl.emit('done')
         // Reject the promise if there are no items and there's a error
         if (!pl.items.length && code > 0) {
-          return reject(lastError || new Error('Process exited with code ' + code))
+          return reject(
+            lastError || new Error('Process exited with code ' + code)
+          )
         }
         // Resolve the promise if wait is set to true or there's only one item
         if (wait || pl.items.length <= 1) resolve(pl)
       })
       // Keep track of the errors
-      pl.on('error', e => { lastError = e })
+      pl.on('error', (e) => {
+        lastError = e
+      })
       // Add a _cancel function to kill the process
       pl._cancel = () => ytdl.kill()
     })
   },
+
   /**
    * Resolves to the version string of the youtube-dl executable
    * @return {Promise<string>}
    */
   getVersion () {
-    const bin = path.join(__dirname, `ytdl`, `youtube-dl${platform === 'win32' ? '.exe' : ''}`)
-
     return new Promise((resolve, reject) => {
       execFile(bin, ['--version'], (error, stdout, stderr) => {
-        if (error || stderr.length) return reject(error || stderr)
+        if (error || stderr.length) {
+          return reject(error || stderr)
+        }
         resolve(stdout)
       })
     })

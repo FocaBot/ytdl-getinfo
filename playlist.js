@@ -46,5 +46,4 @@ class Playlist extends EventEmitter {
  * @event Playlist#error
  */
 
-
 module.exports = Playlist
