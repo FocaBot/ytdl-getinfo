@@ -1,29 +1,29 @@
-const EventEmitter = require('events')
+const EventEmitter = require("events");
 
 /**
  * Represents a video playlist.
  */
 class Playlist extends EventEmitter {
-  constructor () {
-    super()
+  constructor() {
+    super();
     /**
      * Items of the playlist
      */
-    this.items = []
+    this.items = [];
     /**
      * true when youtube-dl is still getting information on other videos
      * @type {boolean}
      */
-    this.partial = true
+    this.partial = true;
   }
 
   /**
    * Cancels playlist fetching
    */
-  cancel () {
+  cancel() {
     if (this.partial && this._cancel) {
-      this._cancel()
-      this.emit('cancelled')
+      this._cancel();
+      this.emit("cancelled");
     }
   }
 }
@@ -46,5 +46,4 @@ class Playlist extends EventEmitter {
  * @event Playlist#error
  */
 
-
-module.exports = Playlist
+module.exports = Playlist;
