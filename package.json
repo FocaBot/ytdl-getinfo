@@ -4,6 +4,7 @@
   "description": "Gets video information using youtube-dl",
   "main": "index.js",
   "scripts": {
+    "lint": "npx standard --fix",
     "postinstall": "node updater",
     "update": "node updater",
     "test": "mocha"
